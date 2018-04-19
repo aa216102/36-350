@@ -13,6 +13,7 @@ model_select = function(covariates, responses, cutoff){
 }
 
 run_simulation = function(n_trials, n, p, cutoff){
+  sink("lab_12_p.values.txt")
   p.values = c()
   for(i in 1:n_trials){
     covariates = generate_data(n,p)$covariates
@@ -21,5 +22,13 @@ run_simulation = function(n_trials, n, p, cutoff){
     p.values = c(p.values, 
                  summary(cutoff.regression)$coefficients[2:length(summary(cutoff.regression)$coefficients[,4]),4])
   }
-  return(hist(p.values))
+  sink()
 }
+
+make_plot = function(datapath){
+  data = as.numeric(strsplit(readLines(datapath), split = " "))
+  return(hist(data))
+}
+
+
+
